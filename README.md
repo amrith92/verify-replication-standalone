@@ -17,5 +17,8 @@ The source HBase cluster must have MapReduce installed.
 
 On the source clusters' HMaster, run:
 
-    HADOOP_CLASSPATH=`hbase classpath` hadoop jar verify-replication-standalone-1.0-SNAPSHOT.jar com.flipkart.hbase.v094.cdh470.replication.VerifyReplicationCutover --starttime=<start-time> --stoptime=<stop-time> --out=<output-file-path> <peer-id> <table-name>
+    HADOOP_CLASSPATH=`hbase classpath` hadoop jar verify-replication-standalone-1.0-SNAPSHOT.jar \
+       com.flipkart.hbase.v094.cdh470.replication.VerifyReplicationCutover \
+       --starttime=<start-time> --stoptime=<stop-time> --out=<output-file-path> \
+       <peer-id> <table-name>
     
