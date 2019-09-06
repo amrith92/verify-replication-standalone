@@ -232,7 +232,7 @@ public class VerifyReplicationCutover {
 
         Scan scan = new Scan();
         scan.setCacheBlocks(false);
-        scan.setCaching(5000);
+        scan.setCaching(10000);
 
         if (startTime != 0) {
             scan.setTimeRange(startTime,
