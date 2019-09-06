@@ -1,0 +1,46 @@
+
+\
+squid:S106·"9Replace this use of System.out or System.err by a logger.(¬¼èÈùÿÿÿÿ8á×ª®Ğ-
+\
+squid:S106½"9Replace this use of System.out or System.err by a logger.(âÉÀÜüÿÿÿÿ8á×ª®Ğ-
+^squid:S1161—":Add the "@Override" annotation above this method signature(½‡Â’ùÿÿÿÿ8á×ª®Ğ-
+\
+squid:S106¾"9Replace this use of System.out or System.err by a logger.(»ÌÎ›şÿÿÿÿ8á×ª®Ğ-
+W
+squid:S106»"9Replace this use of System.out or System.err by a logger.(Ş¿Ë¾8á×ª®Ğ-
+\
+squid:S106±"9Replace this use of System.out or System.err by a logger.(¥«Øœøÿÿÿÿ8á×ª®Ğ-
+Ksquid:S1659}"-Declare "possiblyDeleted" on a separate line.(áäõì8á×ª®Ğ-
+ksquid:CallToDeprecatedMethodÌ";Remove this use of "getZooKeeperWatcher"; it is deprecated.(´ü³à8á×ª®Ğ-
+\
+squid:S106³"9Replace this use of System.out or System.err by a logger.(âÉÀÜüÿÿÿÿ8á×ª®Ğ-
+\
+squid:S106¶"9Replace this use of System.out or System.err by a logger.(®ƒÈ‡ùÿÿÿÿ8á×ª®Ğ-
+\
+squid:S106¼"9Replace this use of System.out or System.err by a logger.(°ë„·ıÿÿÿÿ8á×ª®Ğ-
+W
+squid:S106´"9Replace this use of System.out or System.err by a logger.(¦»†¨8á×ª®Ğ-
+W
+squid:S106µ"9Replace this use of System.out or System.err by a logger.(öõµ¾8á×ª®Ğ-
+|
+squid:S135"YReduce the total number of break and continue statements in this loop to use at most one.(ÕÈñúÿÿÿÿ8á×ª®Ğ-
+jsquid:CallToDeprecatedMethodP";Remove this use of "getZooKeeperWatcher"; it is deprecated.(´ü³à8á×ª®Ğ-
+ksquid:S2259\"MA "NullPointerException" could be thrown; "replicatedTable" is nullable here.(Ô²Â8á×ª®Ğ-
+Gsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á×ª®Ğ-
+\
+squid:S106À"9Replace this use of System.out or System.err by a logger.(—ƒ•ıûÿÿÿÿ8á×ª®Ğ-
+V
+squid:S106Í"9Replace this use of System.out or System.err by a logger.(Ÿ‡8éÛ²®Ğ-
+\
+squid:S106¯"9Replace this use of System.out or System.err by a logger.(ïãõ‡ÿÿÿÿÿ8á×ª®Ğ-
+W
+squid:S106¸"9Replace this use of System.out or System.err by a logger.(—¶Û±8á×ª®Ğ-
+\
+squid:S106º"9Replace this use of System.out or System.err by a logger.(™Òğäùÿÿÿÿ8á×ª®Ğ-
+\
+squid:S106¿"9Replace this use of System.out or System.err by a logger.(¦Ì…ùùÿÿÿÿ8á×ª®Ğ-
+\
+squid:S106¹"9Replace this use of System.out or System.err by a logger.(âÉÀÜüÿÿÿÿ8á×ª®Ğ-
+vsquid:S3776û"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Ì™æ¦øÿÿÿÿ8á×ª®Ğ-
+ksquid:CallToDeprecatedMethod§";Remove this use of "getZooKeeperWatcher"; it is deprecated.(´ü³à8á×ª®Ğ-
+Gsquid:S1148£"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8á×ª®Ğ-
