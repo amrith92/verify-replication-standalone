@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'com.flipkart.hbase.v094.cdh470'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.7
+
+repositories {
+    flatDir {
+        dirs "${project.rootDir}/lib"
+    }
+    mavenCentral()
+    maven {
+        url 'https://repository.cloudera.com/artifactory/cloudera-repos/'
+    }
+}
+
+dependencies {
+    compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.0.0-cdh4.7.0'
+    compile group: 'org.apache.hadoop', name: 'hadoop-tools', version: '2.0.0-mr1-cdh4.7.0'
+    compile group: 'org.apache.hbase', name: 'hbase', version: '0.94.15-cdh4.7.0'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
