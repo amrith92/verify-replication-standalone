@@ -231,6 +231,9 @@ public class VerifyReplicationCutover {
         job.setJarByClass(VerifyReplicationCutover.class);
 
         Scan scan = new Scan();
+        scan.setCacheBlocks(false);
+        scan.setCaching(5000);
+
         if (startTime != 0) {
             scan.setTimeRange(startTime,
                     endTime == 0 ? HConstants.LATEST_TIMESTAMP : endTime);
