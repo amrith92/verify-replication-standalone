@@ -23,6 +23,9 @@
     <currentScheme>IDE</currentScheme>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
