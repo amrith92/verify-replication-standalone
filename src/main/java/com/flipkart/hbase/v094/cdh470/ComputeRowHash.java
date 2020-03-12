@@ -2,6 +2,7 @@ package com.flipkart.hbase.v094.cdh470;
 
 import com.google.common.base.Splitter;
 import com.google.common.hash.HashCode;
+import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -19,6 +20,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.NavigableMap;
 
 public class ComputeRowHash {
 
@@ -34,7 +37,18 @@ public class ComputeRowHash {
 
             context.getCounter(Counters.ROWS).increment(1);
 
-            final HashCode hashCode = Hashing.murmur3_128().hashBytes(value.getBytes().copyBytes());
+            final Hasher hasher = Hashing.murmur3_128().newHasher();
+
+            for (Map.Entry<byte[], NavigableMap<byte[], byte[]>> familyMap : value.getNoVersionMap().entrySet()) {
+                for (final Map.Entry<byte[], byte[]> qv : familyMap.getValue().entrySet()) {
+                    hasher.putBytes(row.copyBytes())
+                            .putBytes(familyMap.getKey())
+                            .putBytes(qv.getKey())
+                            .putBytes(qv.getValue());
+                }
+            }
+
+            final HashCode hashCode = hasher.hash();
             try {
                 context.write(new Text(row.copyBytes()), new Text(hashCode.toString()));
             } catch (IOException e) {
