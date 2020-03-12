@@ -6,7 +6,6 @@ import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
@@ -21,12 +20,14 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.NavigableMap;
 
 public class ComputeRowHash {
 
     private static final String NAME = "computerowhash";
 
-    public enum Counters {ROWS,ERROR}
+    public enum Counters {ROWS, ERROR}
 
     public static class ComputeHash
             extends TableMapper<Text, Text> {
@@ -38,11 +39,13 @@ public class ComputeRowHash {
 
             final Hasher hasher = Hashing.murmur3_128().newHasher();
 
-            for (Cell cell : value.rawCells()) {
-                hasher.putBytes(cell.getRowArray())
-                        .putBytes(cell.getFamilyArray())
-                        .putBytes(cell.getQualifierArray())
-                        .putBytes(cell.getValueArray());
+            for (Map.Entry<byte[], NavigableMap<byte[], byte[]>> familyMap : value.getNoVersionMap().entrySet()) {
+                for (final Map.Entry<byte[], byte[]> qv : familyMap.getValue().entrySet()) {
+                    hasher.putBytes(row.copyBytes())
+                            .putBytes(familyMap.getKey())
+                            .putBytes(qv.getKey())
+                            .putBytes(qv.getValue());
+                }
             }
 
             final HashCode hashCode = hasher.hash();
