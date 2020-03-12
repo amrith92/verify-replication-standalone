@@ -1,10 +1,12 @@
-package com.flipkart.hbase.v094.cdh470;
+package com.flipkart.hbase.v2;
 
 import com.google.common.base.Splitter;
 import com.google.common.hash.HashCode;
+import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
@@ -34,7 +36,16 @@ public class ComputeRowHash {
 
             context.getCounter(Counters.ROWS).increment(1);
 
-            final HashCode hashCode = Hashing.murmur3_128().hashBytes(value.getBytes().copyBytes());
+            final Hasher hasher = Hashing.murmur3_128().newHasher();
+
+            for (Cell cell : value.rawCells()) {
+                hasher.putBytes(cell.getRowArray())
+                        .putBytes(cell.getFamilyArray())
+                        .putBytes(cell.getQualifierArray())
+                        .putBytes(cell.getValueArray());
+            }
+
+            final HashCode hashCode = hasher.hash();
             try {
                 context.write(new Text(row.copyBytes()), new Text(hashCode.toString()));
             } catch (IOException e) {
