@@ -38,9 +38,13 @@ public class ComputeRowHash {
             context.getCounter(Counters.ROWS).increment(1);
 
             final Hasher hasher = Hashing.murmur3_128().newHasher();
+            long timestamp = 0;
 
             for (Map.Entry<byte[], NavigableMap<byte[], byte[]>> familyMap : value.getNoVersionMap().entrySet()) {
                 for (final Map.Entry<byte[], byte[]> qv : familyMap.getValue().entrySet()) {
+                    if (timestamp == 0) {
+                        timestamp = value.getColumnLatestCell(familyMap.getKey(), qv.getKey()).getTimestamp();
+                    }
                     hasher.putBytes(row.copyBytes())
                             .putBytes(familyMap.getKey())
                             .putBytes(qv.getKey())
@@ -50,7 +54,7 @@ public class ComputeRowHash {
 
             final HashCode hashCode = hasher.hash();
             try {
-                context.write(new Text(row.copyBytes()), new Text(hashCode.toString()));
+                context.write(new Text(row.copyBytes()), new Text(String.format("%d %s", timestamp, hashCode.toString())));
             } catch (IOException e) {
                 context.getCounter(Counters.ERROR).increment(1);
             } catch (InterruptedException e) {
