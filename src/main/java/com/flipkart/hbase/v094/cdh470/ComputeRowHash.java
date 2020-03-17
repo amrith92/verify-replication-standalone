@@ -44,8 +44,12 @@ public class ComputeRowHash {
             for (Map.Entry<byte[], NavigableMap<byte[], byte[]>> familyMap : value.getNoVersionMap().entrySet()) {
                 for (final Map.Entry<byte[], byte[]> qv : familyMap.getValue().entrySet()) {
                     if (timestamp == 0) {
-                        final KeyValue kv = value.getColumnLatest(qv.getKey(), qv.getValue());
-                        timestamp = kv.getTimestamp();
+                        try {
+                            final KeyValue kv = value.getColumnLatest(qv.getKey(), qv.getValue());
+                            timestamp = kv.getTimestamp();
+                        } catch (Exception e) {
+                            // ignore
+                        }
                     }
                     hasher.putBytes(row.copyBytes())
                             .putBytes(familyMap.getKey())
