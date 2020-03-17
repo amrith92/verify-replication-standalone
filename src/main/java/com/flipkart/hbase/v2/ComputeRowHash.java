@@ -40,15 +40,14 @@ public class ComputeRowHash {
             final Hasher hasher = Hashing.murmur3_128().newHasher();
             long timestamp = 0;
 
+            try {
+                timestamp = value.rawCells()[0].getTimestamp();
+            } catch (Exception e) {
+                // ignore
+            }
+
             for (Map.Entry<byte[], NavigableMap<byte[], byte[]>> familyMap : value.getNoVersionMap().entrySet()) {
                 for (final Map.Entry<byte[], byte[]> qv : familyMap.getValue().entrySet()) {
-                    if (timestamp == 0) {
-                        try {
-                            timestamp = value.getColumnLatestCell(familyMap.getKey(), qv.getKey()).getTimestamp();
-                        } catch (Exception e) {
-                            // ignore
-                        }
-                    }
                     hasher.putBytes(row.copyBytes())
                             .putBytes(familyMap.getKey())
                             .putBytes(qv.getKey())
