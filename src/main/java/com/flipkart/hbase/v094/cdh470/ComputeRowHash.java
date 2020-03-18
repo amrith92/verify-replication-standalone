@@ -74,7 +74,6 @@ public class ComputeRowHash {
 
         final Scan scan = new Scan();
         scan.setCacheBlocks(false);
-        scan.setCaching(10000);
 
         final String tableName = args[0];
         final String cfs = args[1];
