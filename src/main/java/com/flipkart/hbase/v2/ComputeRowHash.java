@@ -27,7 +27,7 @@ public class ComputeRowHash {
 
     private static final String NAME = "computerowhash";
 
-    public enum Counters {ROWS, ERROR}
+    public enum Counters {ROWS, ERROR, SKIP, OUT_OF_TIME_RANGE}
 
     public static class ComputeHash
             extends TableMapper<Text, Text> {
@@ -44,6 +44,18 @@ public class ComputeRowHash {
                 timestamp = value.rawCells()[0].getTimestamp();
             } catch (Exception e) {
                 // ignore
+            }
+
+            if (timestamp == 0) {
+                context.getCounter(Counters.SKIP).increment(1);
+                return;
+            }
+            final long startTime = context.getConfiguration().getLong("start", 0);
+            final long endTime = context.getConfiguration().getLong("end", 0);
+
+            if (!(timestamp >= startTime && timestamp < endTime)) {
+                context.getCounter(Counters.OUT_OF_TIME_RANGE).increment(1);
+                return;
             }
 
             for (Map.Entry<byte[], NavigableMap<byte[], byte[]>> familyMap : value.getNoVersionMap().entrySet()) {
@@ -81,10 +93,11 @@ public class ComputeRowHash {
         final long endTime = Long.parseLong(args[3]);
         final String outputFilePath = args[4];
 
+        conf.setLong("start", startTime);
+        conf.setLong("end", endTime);
         for (final String cf : Splitter.on(",").omitEmptyStrings().split(cfs)) {
             final byte[] family = Bytes.toBytes(cf);
             scan.addFamily(family);
-            scan.setColumnFamilyTimeRange(family, startTime, endTime);
         }
 
         Job job = new Job(conf, NAME + "_" + tableName);
