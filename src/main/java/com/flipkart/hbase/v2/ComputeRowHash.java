@@ -82,9 +82,10 @@ public class ComputeRowHash {
         final long endTime = Long.parseLong(args[3]);
         final String outputFilePath = args[4];
 
-        scan.setTimeRange(startTime, endTime);
         for (final String cf : Splitter.on(",").omitEmptyStrings().split(cfs)) {
-            scan.addFamily(Bytes.toBytes(cf));
+            final byte[] family = Bytes.toBytes(cf);
+            scan.addFamily(family);
+            scan.setColumnFamilyTimeRange(family, startTime, endTime);
         }
 
         Job job = new Job(conf, NAME + "_" + tableName);
