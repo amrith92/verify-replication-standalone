@@ -100,8 +100,12 @@ public class ComputeRowHash {
             scan.addFamily(family);
         }
 
+
         Job job = new Job(conf, NAME + "_" + tableName);
         job.setJarByClass(ComputeRowHash.class);
+        job.setSpeculativeExecution(false);
+        job.setMapSpeculativeExecution(false);
+        job.setReduceSpeculativeExecution(false);
 
         TableMapReduceUtil.initTableMapperJob(tableName, scan,
                 ComputeHash.class, Text.class, Text.class, job);
