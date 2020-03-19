@@ -12,6 +12,7 @@ import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.hbase.mapreduce.TableMapper;
+import org.apache.hadoop.hbase.util.Base64;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -57,7 +58,8 @@ public class ComputeRowHash {
 
             final HashCode hashCode = hasher.hash();
             try {
-                context.write(new Text(row.copyBytes()), new Text(String.format("%d %s", timestamp, hashCode.toString())));
+                final String rowHash = Base64.encodeBytes(row.copyBytes());
+                context.write(new Text(rowHash), new Text(String.format("%d %s", timestamp, hashCode.toString())));
             } catch (IOException e) {
                 context.getCounter(Counters.ERROR).increment(1);
             } catch (InterruptedException e) {
